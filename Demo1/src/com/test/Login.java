@@ -12,7 +12,7 @@ public class Login extends Base {
 	private void login()
 	{   ExtentTest loginTest = extent.startTest("Login to application");
 		
-		driver.get(utl.readProperties(propFile,"accurl"));
+		driver.get().get(utl.readProperties(propFile,"accurl"));
 		logs.log.info("Page naviated");
 		
 		page.homePage.typeIn_UserName(utl.readProperties(propFile,"userName"));
@@ -23,6 +23,8 @@ public class Login extends Base {
 		
 		page.homePage.click_Submit();
 		logs.log.info("Submit button clicked");
+		
+		
 		
 		loginTest.log(LogStatus.FAIL, "Failing for test");
 		loginTest.log(LogStatus.PASS, "Passing for test");

@@ -1,13 +1,30 @@
 package com.page;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.PageFactory;
 
 import com.pageactions.SelUtils;
 
 public class HomePage {
 	
-	private SelUtils selUtils = new SelUtils();
+	private SelUtils selUtils;
+	private WebDriver driver;
+	
+	public HomePage(WebDriver webDriver) {
+		this.driver = webDriver;
+		this.selUtils = new SelUtils(driver);
+		PageFactory.initElements(this.driver, this.getClass());
+	}
+	
+	
+	
+	
+	@FindBy(id="loginfrm")
+	WebElement loginform;
 	
 	@FindBy(name="username")
 	WebElement username;
@@ -39,5 +56,7 @@ public class HomePage {
 		
 		return this;
 	}
+	
+	
 
 }

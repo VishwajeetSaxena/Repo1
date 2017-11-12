@@ -1,20 +1,34 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
   
-<suite name="Suite1" verbose="1" >
+<suite name="Suite1" parallel="tests" >
   <!-- <test name="Nopackage" >
     <classes>
        <class name="NoPackageTest" />
     </classes>
   </test> -->
  
-  <test name="Login">
+  <test name="Login_From_Chrome">
+  <parameter name="browser" value="chrome"/>
     <classes>
       <class name="com.test.Login">
-      	<!-- <methods>
+      	<methods>
       		<include name = "browseToUrl"/>
       		<include name = "loginToApplication"/>
       		<exclude name="logout" />
-      	</methods> -->
+      	</methods>
+      </class>
+    </classes>
+  </test>
+  
+  <test name="Login_Test_From_Firefox">
+   <parameter name="browser" value="firefox"/>
+    <classes>
+      <class name="com.test.Login">
+      	<methods>
+      		<include name = "browseToUrl"/>
+      		<include name = "loginToApplication"/>
+      		<exclude name="logout" />
+      	</methods>
       </class>
     </classes>
   </test>

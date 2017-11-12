@@ -8,7 +8,10 @@ import java.io.File;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 
 import com.CommonUtils;
 import com.DriverLoader;
@@ -23,7 +26,7 @@ import com.relevantcodes.extentreports.ExtentReports;
  */
 public class Base {
 	
-	public static WebDriver driver;
+	public static ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
 	public static String propFile = "config/generalConfig.properties";
 	protected CommonUtils utl; 
 	protected LogInit logs; 
@@ -45,8 +48,9 @@ public class Base {
 		
 	}
 	
-	@BeforeSuite
-	public void startReport()
+	@BeforeTest
+	@Parameters({"browser"})
+	public void startReport(String browser)
 	{	
 		utl = new CommonUtils();
 		
@@ -58,21 +62,20 @@ public class Base {
 		
 		setExtentReports();
 		
-		
 		ob = new DriverLoader();
-		driver = ob.getWebDriver();
+		Base.driver = ob.getWebDriver(driver, browser);
 		
-		LocalDriverManager.setWebDriver(driver);
-		
-		page = new Page(LocalDriverManager.getDriver());
+//		LocalDriverManager.setWebDriver(driver);
+		WebDriver webDriver = Base.driver.get();
+		page = new Page(webDriver);
 	}
 	
 	
-	@AfterSuite(alwaysRun=true)
+	@AfterTest(alwaysRun=true)
 	public void afterSuite()
 	{
 		extent.flush();
-		driver.quit();
+		driver.get().quit();
 	}
 
 }
